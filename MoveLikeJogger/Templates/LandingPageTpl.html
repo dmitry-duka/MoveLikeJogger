@@ -1,0 +1,23 @@
+﻿<div ng-if="!identity || !identity.Id">
+    <h2>Move Like Jogger lets you to get your activity logged!</h2>
+    <p>
+        Please <a href="/#/login">log in</a> first...
+    </p>
+</div>
+<div ng-if="!!identity && !!identity.Id">
+    <div ng-if="!!identity.Role">
+        <h3>Welcome to Move Like Jogger!</h3>
+        <hr/>
+        <p>
+            <b>{{identity.Role}}</b> rights give you access to the following modules:
+        </p>
+        <div class="btn-group-vertical">
+            <a ng-if="identity.Role == 'Admin' || identity.Role == 'Manager'" class="btn btn-primary" href="/#/users">Manage Users</a>
+            <a ng-if="identity.Role == 'Admin'" class="btn btn-primary" href="/#/movesadmin">Manage User Moves</a>
+        </div>
+    </div>
+
+    <div ng-if="!identity.Role">
+        <div moves-list="{{identity.Id}}" option-show-statistics="true"></div>
+    </div>
+</div>

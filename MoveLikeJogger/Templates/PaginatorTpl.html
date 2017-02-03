@@ -1,0 +1,7 @@
+﻿<div class="text-center" ng-if="length > 1">
+    <ul class="pagination pagination-sm">
+        <li ng-repeat="i in getRepetitions(length) track by $index" ng-class="{active:(current==$index+1)}">
+            <a href="javascript:void(0);" ng-click="pageSelected($index+1)">{{$index+1}}</a>
+        </li>
+    </ul>
+</div>

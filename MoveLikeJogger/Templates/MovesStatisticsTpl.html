@@ -1,0 +1,71 @@
+﻿<div>
+    <a id="statisticsPopover" ng-click="openStatistics()" data-trigger="focus" class="no-text-decoration" href="javascript:void(0)" data-placement="left"><span class="glyphicon glyphicon-stats"></span> View Statistics</a>
+
+    <div id="popoverContent" style="display: none">
+        <div ng-show="!stats">
+            Looks like there's no Moves in the last {{daysBeforeToday}} days...
+        </div>
+        <table ng-show="!!stats" class="table table-striped table-condensed">
+            <tr>
+                <td class="text-right">Active days:</td>
+                <td>{{stats.DaysActive}} of {{stats.DaysTotal}}<span class="text-muted" ng-show="stats.DaysActive >= stats.DaysTotal"> (well done!)</span></td>
+            </tr>
+            <tr>
+                <td class="text-right">Total distance:</td>
+                <td>
+                    <span ng-show="stats.TotalDistance >= 1000">{{numberFloor(stats.TotalDistance, 1000) | number:0}} km</span>
+                    <span ng-show="stats.TotalDistance % 1000 != 0"> {{numberRest(stats.TotalDistance, 1000) | number:0}} m</span>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="text-right">Total duration:</td>
+                <td>
+                    <span ng-show="stats.TotalDuration >= 60">{{numberFloor(stats.TotalDuration, 60) | number:0}} hr</span>
+                    <span ng-show="stats.TotalDuration % 60 != 0">{{numberRest(stats.TotalDuration, 60) | number:0}} min</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Average distance:</td>
+                <td>
+                    <span ng-show="stats.AvgDistance >= 1000">{{numberFloor(stats.AvgDistance, 1000) | number:0}} km</span>
+                    <span ng-show="stats.AvgDistance % 1000 != 0"> {{numberRest(stats.AvgDistance, 1000) | number:0}} m</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Average duration:</td>
+                <td>
+                    <span ng-show="stats.AvgDuration >= 60">{{numberFloor(stats.AvgDuration, 60) | number:0}} hr</span>
+                    <span ng-show="stats.AvgDuration % 60 != 0">{{numberRest(stats.AvgDuration, 60) | number:0}} min</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Average speed:</td>
+                <td>{{stats.AvgSpeed | number:2}} km/h</td>
+            </tr>
+            <tr>
+                <td class="text-right">Maximum daily distance:</td>
+                <td>
+                    <span ng-show="stats.MaxDistance >= 1000">{{numberFloor(stats.MaxDistance, 1000) | number:0}} km</span>
+                    <span ng-show="stats.MaxDistance % 1000 != 0"> {{numberRest(stats.MaxDistance, 1000) | number:0}} m</span>
+                    <span class="text-muted"> (at {{stats.MaxDistanceDate | date: 'yyyy-MM-dd'}})</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Maximum daily duration:</td>
+                <td>
+                    <span ng-show="stats.MaxDuration >= 60">{{numberFloor(stats.MaxDuration, 60) | number:0}} hr</span>
+                    <span ng-show="stats.MaxDuration % 60 != 0">{{numberRest(stats.MaxDuration, 60) | number:0}} min</span>
+                    <span class="text-muted"> (at {{stats.MaxDurationDate | date: 'yyyy-MM-dd'}})</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Maximum speed:</td>
+                <td>
+                    {{stats.MaxSpeed | number:2}} km/h
+                    <span class="text-muted"> (at {{stats.MaxSpeedDate | date: 'yyyy-MM-dd HH:mm'}})</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

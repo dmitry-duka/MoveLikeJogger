@@ -1,0 +1,72 @@
+﻿<div>
+    <h3>User Management</h3>
+    <hr/>
+    <div>
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="search"><span class="glyphicon glyphicon-search"></span>&nbsp;Search by User Name or Email:</label>
+            </div>
+            <div class="form-group">
+                <input type="search" class="form-control" ng-model="usersFilter.search" ng-change="loadUsers()" id="search" />
+            </div>
+            &nbsp;
+            <div class="form-group">
+                <label>Role: </label>
+                <select ng-model="usersFilter.role" ng-change="loadUsers()">
+                    <option value="">- ALL -</option>
+                    <option value="!">- none -</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            &nbsp;
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input type="checkbox" ng-model="usersFilter.includeDeleted" ng-change="loadUsers()"/> Include deleted</label>
+                </div>
+            </div>
+            &nbsp;
+            <div class="form-group pull-right">
+                <span class="badge">{{totalCount}}</span>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th style="width:30%">User Name</th>
+            <th style="width:40%">Email</th>
+            <th>Role</th>
+            <th style="width:135px">
+                <a class="no-text-decoration" href="javascript:void(0);" ng-click="openUserDetails()"><span class="glyphicon glyphicon-plus text-primary" title="Create new User"></span> Create new</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'text-muted': !canEditUser(user.Id,user.Role), 'text-danger':user.IsDeleted, 'well': (user.Id == selectedUser) }" ng-repeat="user in users">
+            <td ng-click="openUserDetails(user.Id,user.Role)" ng-class="{ 'line-through' : user.IsDeleted }">
+                <span class="no-text-decoration" ng-class="{'text-danger':user.IsDeleted}">{{user.UserName}}</span>
+            </td>
+            <td ng-click="openUserDetails(user.Id,user.Role)">
+                <span>{{user.Email}}</span>
+            </td>
+            <td ng-click="openUserDetails(user.Id,user.Role)">
+                <span>{{user.Role}}</span>
+            </td>
+            <td>
+                <span ng-if="canEditUser(user.Id,user.Role)">
+                    <a class="text-primary" href="javascript:void(0);" ng-click="openUserDetails(user.Id,user.Role)"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+                    &nbsp;&nbsp;
+                    <a class="text-danger" ng-show="!user.IsDeleted" href="javascript:void(0);" ng-click="delete(user.Id,user.Role)"><span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                    <a class="text-success" ng-show="!!user.IsDeleted" href="javascript:void(0);" ng-click="restore(user.Id,user.Role)"><span class="glyphicon glyphicon-repeat" title="Restore"></span></a>
+                </span>
+                <span ng-if="user.Id == identity.Id" class="text-muted">(that's you!)</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div paginator current="currentPage" length="{{getTotalPages()}}"></div>
+
+    <div user-details-modal="userDetailsModalHandler"></div>
+</div>

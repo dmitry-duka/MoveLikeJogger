@@ -1,0 +1,55 @@
+﻿<div class="row">
+    <div class="col-md-10">
+        <section id="accountForm">
+            <h4>Update your account details</h4>
+            <hr/>
+            <div ng-show="loadingDataFlag">Please wait...</div>
+            <div ng-if="!accountForm">
+                <strong class="text-danger">Form construction or data error!</strong>
+            </div>
+            <form ng-if="!!accountForm && !!accountForm.userName" ng-submit="updateAccount()" class="form-horizontal">
+                
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="userName">User Name:</label>
+                    <label class="control-label" type="text" id="userName" readonly>{{accountForm.userName}}</label>
+                    <label ng-if="!!accountForm.role">&nbsp;[ {{accountForm.role}} ]</label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="password">Current Password:</label>
+                    <input type="password" pattern=".{6,200}" title="at least 6 characters long" id="password" ng-model="accountForm.password" class="form-control" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="newPassword">New Password:</label>
+                    <input type="password" pattern=".{6,200}" title="at least 6 characters long" id="newPassword" ng-model="accountForm.newPassword" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="confirmNewPassword">Confirm Password:</label>
+                    <input class="form-control" type="password" id="confirmNewPassword" ng-model="accountForm.confirmNewPassword"/>
+                    <span ng-if="!!accountForm.newPassword && accountForm.newPassword !== accountForm.confirmNewPassword" class="text-danger col-md-offset-2 col-md-10"> Password Confirmation does not match. </span>
+                </div>
+
+                <div class="form-group"></div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="emailAddress">Email Address:</label>
+                    <input class="form-control" type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" placeholder="user@email.dom" ng-model="accountForm.email" id="emailAddress" required />
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button ng-disabled="submittingDataFlag" class="btn btn-default" type="submit">Update</button>
+                        &nbsp;
+                        <a href="/">Cancel</a>
+                        &nbsp;
+                        <span ng-show="accountForm.failed" class="text-danger">Update failed!</span>
+                        <p ng-show="accountForm.failed && !!accountForm.errorMessage" class="text-danger outstand">{{accountForm.errorMessage}}</p>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

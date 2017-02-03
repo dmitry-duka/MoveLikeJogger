@@ -1,0 +1,26 @@
+﻿<div>
+    <h3>User Moves Management</h3>
+    <span ng-if="!!selectedUser" class="pull-right"><span class="glyphicon glyphicon-user"></span> <strong>{{selectedUser.name}}</strong> ({{selectedUser.email}}) <a href="javascript:void(0)" class="no-text-decoration glyphicon glyphicon-log-out" title="Select another User" ng-click="resetUser()"></a></span>
+    <hr/>
+    <div ng-if="!selectedUser">
+        <div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="search"><span class="glyphicon glyphicon-search"></span>&nbsp;Search by User Name or Email:</label>
+                </div>
+                <div class="form-group">
+                    <input type="search" class="form-control" ng-model="usersFilter.search" ng-change="loadUsers()" id="search"/>
+                </div>
+            </div>
+        </div>
+        <span ng-if="!usersFilter.search">Please enter at least one character to select a user.</span>
+        <span ng-if="!!usersFilter.search && bulkLimit < totalCount">Please be more specific: you can see {{users.length}} of {{totalCount}} matching Users now.</span>
+        <span ng-if="!!usersFilter.search && bulkLimit >= totalCount">&nbsp;</span>
+        <div>&nbsp;</div>
+        <div class="container">
+            <label ng-repeat="user in users" ng-click="selectUser(user.Id, user.UserName, user.Email)"><a class="label label-primary fat outstand" href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> {{user.UserName}} ({{user.Email}})</a></label>
+        </div>
+    </div>
+
+    <div ng-if="!!selectedUser" moves-list="{{selectedUser.id}}" option-include-deleted="true"></div>
+</div>

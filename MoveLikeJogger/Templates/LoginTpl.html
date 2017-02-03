@@ -1,0 +1,40 @@
+﻿<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <h4>Log in</h4>
+            <hr/>
+            <form ng-submit="login()" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="userName">User Name:</label>
+                    <input class="form-control" type="text" pattern="[a-zA-Z0-9]{3,200}" title="Alphanumeric only, at least 3 characters long" ng-model="loginForm.userName" id="userName" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="password">Password:</label>
+                    <input class="form-control" type="password" pattern=".{6,200}" title="at least 6 characters long" id="password" ng-model="loginForm.password" required/>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            <input type="checkbox" id="rememberMe" ng-model="loginForm.rememberMe"/>
+                            <label for="rememberMe">Remember Me</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="btn btn-default" type="submit">Log in</button>
+                        &nbsp;
+                        <span ng-show="loginForm.failed" class="text-danger">Login attempt failed!</span>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="/#/register">Register a new account</a>
+                </p>
+            </form>
+        </section>
+    </div>
+</div>

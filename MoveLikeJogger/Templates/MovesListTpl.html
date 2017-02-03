@@ -1,0 +1,123 @@
+﻿<div ng-sif="!!userId">
+    <h4>Moves</h4>
+    <hr/>
+    <div>
+        <div class="alert alert-danger" role="alert" ng-show="!!errorMessage">
+            <span><strong>Error</strong>: {{errorMessage}}</span>
+        </div>
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="dtFrom"><span class="glyphicon glyphicon-search"></span>&nbsp;Filter by Date:</label>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dtFrom" onkeydown="return false;"/>
+            </div>
+            <div class="form-group">
+                <label for="dtTill">-</label>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dtTill" onkeydown="return false;"/>
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" ng-click="clearDateFilter()"><span class="glyphicon glyphicon-remove-sign" title="Clear Date Filter"></span></a>
+            </div>
+            &nbsp;
+            <div class="form-group" ng-if="optionIncludeDeleted">
+                <div class="checkbox">
+                    <label><input type="checkbox" ng-model="movesFilter.includeDeleted" ng-change="loadMoves()"/> Include deleted</label>
+                </div>
+            </div>
+            <div ng-if="optionShowStatistics" class="form-group pull-right">
+                <div moves-statistics="{{userId}}" days="7"></div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th style="width:22%">Date & Time</th>
+            <th style="width:22%">Distance</th>
+            <th style="width:22%">Duration</th>
+            <th>Avg Speed</th>
+            <th style="width:135px">
+                <a class="no-text-decoration" href="javascript:void(0);" ng-click="showAddNewMove()"><span class="glyphicon glyphicon-plus text-primary" title="Add new Move"></span> New Move</a>
+
+                <span ng-show="savedIndicator">&nbsp;&nbsp;<span class="label label-success animate-show"><span class="glyphicon glyphicon-floppy-saved"></span></span></span>
+            </th>
+        </tr>
+        <tr class="alert alert-info" id="addNewMoveRow" ng-show="!!newMove">
+            <th>
+                <input id="newMoveDate" type="text" onkeydown="return false;"/>
+            </th>
+            <th>
+                <input type="text" maxlength="9" pattern="[0-9]{1,9}" ng-model="newMove.distance" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))"/> m
+            </th>
+            <th>
+                <input style="width: 60px" type="text" maxlength="3" pattern="[0-9]{1,3}" ng-model="newMove.durationHr" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))"/> hr
+                <input style="width: 60px" type="text" maxlength="4" pattern="[0-9]{1,4}" ng-model="newMove.durationMin" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))"/> min
+            </th>
+            <th>
+                <span id="newMoveSpeedPopover" ng-show="avgSpeedKmh(newMove.distance, newMove.durationMin, newMove.durationHr)" ng-class="{'text-danger' : speedOverHumanAbilities(avgSpeedKmh(newMove.distance, newMove.durationMin, newMove.durationHr))}">{{avgSpeedKmh(newMove.distance, newMove.durationMin, newMove.durationHr) | number : 2}} km/h</span>
+            </th>
+            <th>
+                <span ng-click="displaySpeedTooltipIfInvalid('newMoveSpeedPopover', avgSpeedKmh(newMove.distance, newMove.durationMin, newMove.durationHr))">
+                    <a ng-class="{'text-muted' : !newMoveValid()}" href="javascript:void(0);" ng-click="!submittingDataFlag && newMoveValid() && saveNewMove()"><span class="glyphicon glyphicon-floppy-disk" title="Save"></span></a>
+                </span>
+                &nbsp;&nbsp;
+                <a class="text-warning" href="javascript:void(0);" ng-click="showAddNewMove(false)"><span class="glyphicon glyphicon-remove" title="Cancel"></span></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'text-danger':move.IsDeleted, 'well': isEditMode(move.Id) }" ng-repeat="move in moves">
+            <!--display-->
+            <td ng-show="!isEditMode(move.Id)" ng-click="showEditMove(move.Id)" ng-class="{ 'line-through' : move.IsDeleted }">
+                <span class="no-text-decoration" ng-class="{'text-danger':move.IsDeleted}">{{ move.Date | date : 'yyyy-MM-dd HH:mm' }}</span>
+            </td>
+            <td ng-show="!isEditMode(move.Id)" ng-click="showEditMove(move.Id)" ng-class="{ 'line-through' : move.IsDeleted }">
+                <span ng-show="move.Distance >= 1000">{{numberFloor(move.Distance, 1000) | number:0}} km</span>
+                <span ng-show="move.Distance % 1000 != 0"> {{numberRest(move.Distance, 1000) | number:0}} m</span>
+            </td>
+            <td ng-show="!isEditMode(move.Id)" ng-click="showEditMove(move.Id)" ng-class="{ 'line-through' : move.IsDeleted }">
+                <span ng-show="move.Duration >= 60">{{numberFloor(move.Duration, 60) | number:0}} hr</span>
+                <span ng-show="move.Duration % 60 != 0">{{numberRest(move.Duration, 60) | number:0}} min</span>
+            </td>
+            <td ng-show="!isEditMode(move.Id)" ng-click="showEditMove(move.Id)" ng-class="{ 'line-through' : move.IsDeleted }">
+                <span>{{avgSpeedKmh(move.Distance, move.Duration) | number : 2}} km/h</span>
+            </td>
+            <td ng-show="!isEditMode(move.Id)">
+                <span>
+                    <a class="text-primary" ng-show="!move.IsDeleted" href="javascript:void(0);" ng-click="showEditMove(move.Id)"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+                    &nbsp;&nbsp;
+                    <a class="text-danger" ng-show="!move.IsDeleted" href="javascript:void(0);" ng-click="delete(move.Id)"><span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                    <a class="text-success" ng-show="!!move.IsDeleted" href="javascript:void(0);" ng-click="restore(move.Id)"><span class="glyphicon glyphicon-repeat" title="Revert"></span></a>
+                </span>
+            </td>
+
+            <!--edit-->
+            <td ng-show="isEditMode(move.Id)">
+                <input id="selectedMoveDate{{move.Id}}" type="text" onkeydown="return false;" />
+            </td>
+            <td ng-show="isEditMode(move.Id)">
+                <input type="text" maxlength="9" pattern="[0-9]{1,9}" ng-model="selectedMove.distance" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))" /> m
+            </td>
+            <td ng-show="isEditMode(move.Id)">
+                <input style="width: 60px" type="text" maxlength="3" pattern="[0-9]{1,3}" ng-model="selectedMove.durationHr" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))" /> hr
+                <input style="width: 60px" type="text" maxlength="4" pattern="[0-9]{1,4}" ng-model="selectedMove.durationMin" onkeypress="return (event.charCode <= 31 || (event.charCode >= 48 && event.charCode <= 57))" /> min
+            </td>
+            <td ng-show="isEditMode(move.Id)">
+                <span id="selectedMoveSpeedPopover{{move.Id}}" ng-show="avgSpeedKmh(selectedMove.distance, selectedMove.durationMin, selectedMove.durationHr)" ng-class="{'text-danger' : speedOverHumanAbilities(avgSpeedKmh(selectedMove.distance, selectedMove.durationMin, selectedMove.durationHr))}">{{avgSpeedKmh(selectedMove.distance, selectedMove.durationMin, selectedMove.durationHr) | number : 2}} km/h</span>
+            </td>
+            <td ng-show="isEditMode(move.Id)">
+                <span ng-click="displaySpeedTooltipIfInvalid('selectedMoveSpeedPopover'+move.Id, avgSpeedKmh(selectedMove.distance, selectedMove.durationMin, selectedMove.durationHr))">
+                    <a ng-class="{'text-muted' : !selectedMoveValid()}" href="javascript:void(0);" ng-click="!submittingDataFlag && selectedMoveValid() && updateMove()"><span class="glyphicon glyphicon-floppy-disk" title="Save"></span></a>
+                </span>
+                &nbsp;&nbsp;
+                <a class="text-warning" href="javascript:void(0);" ng-click="showEditMove(null)"><span class="glyphicon glyphicon-remove" title="Cancel"></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div paginator current="currentPage" length="{{getTotalPages()}}"></div>
+</div>

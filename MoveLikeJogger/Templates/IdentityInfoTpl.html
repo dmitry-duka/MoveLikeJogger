@@ -1,0 +1,26 @@
+﻿<ul ng-if="!!identity && !!identity.Id" class="nav navbar-nav navbar-right">
+    <li ng-if="identity.Role == 'Admin' || identity.Role == 'Manager'">
+        <a href="/#/users"><span class="glyphicon glyphicon-th-list"></span> Manage Users</a>
+    </li>
+    <li ng-if="identity.Role == 'Admin'">
+        <a href="/#/movesadmin"><span class="glyphicon glyphicon-list-alt"></span> Manage User Moves</a>
+    </li>
+    <li ng-if="!identity.Role">
+        <a href="/"><span class="glyphicon glyphicon-calendar"></span> My Moves</a>
+    </li>
+    <li>
+        <a href="/#/account" title="{{identity.Role}}"><span class="glyphicon glyphicon-user"></span> {{identity.UserName}}</a>
+    </li>
+    <li>
+        <a href="/" ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Log out</a>
+    </li>
+</ul>
+
+<ul ng-if="!identity || !identity.Id" class="nav navbar-nav navbar-right">
+    <li>
+        <a href="/#/register">Register <span class="glyphicon glyphicon-user"></span></a>
+    </li>
+    <li>
+        <a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
+    </li>
+</ul>

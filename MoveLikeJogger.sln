@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25008.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveLikeJogger", "MoveLikeJogger\MoveLikeJogger.csproj", "{C62A7884-F2EB-4D97-9E66-9049480EF347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveLikeJogger.Tests", "MoveLikeJogger.Tests\MoveLikeJogger.Tests.csproj", "{EA6FAF86-9397-46AF-9A1E-C89CA9203E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveLikeJogger.DataModels", "MoveLikeJogger.DataModels\MoveLikeJogger.DataModels.csproj", "{11E30A9D-B677-4132-AFBA-DCC3F0D4F5CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveLikeJogger.DataContracts", "MoveLikeJogger.DataContracts\MoveLikeJogger.DataContracts.csproj", "{0CCF4BC2-18B9-4B28-B2EE-0F13D8D2FF95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveLikeJogger.DataMining", "MoveLikeJogger.DataMining\MoveLikeJogger.DataMining.csproj", "{6A254AE8-1FE5-4B85-A78D-41C2F8963B7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C62A7884-F2EB-4D97-9E66-9049480EF347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C62A7884-F2EB-4D97-9E66-9049480EF347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C62A7884-F2EB-4D97-9E66-9049480EF347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C62A7884-F2EB-4D97-9E66-9049480EF347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6FAF86-9397-46AF-9A1E-C89CA9203E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6FAF86-9397-46AF-9A1E-C89CA9203E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6FAF86-9397-46AF-9A1E-C89CA9203E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6FAF86-9397-46AF-9A1E-C89CA9203E1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E30A9D-B677-4132-AFBA-DCC3F0D4F5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E30A9D-B677-4132-AFBA-DCC3F0D4F5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E30A9D-B677-4132-AFBA-DCC3F0D4F5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E30A9D-B677-4132-AFBA-DCC3F0D4F5CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CCF4BC2-18B9-4B28-B2EE-0F13D8D2FF95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CCF4BC2-18B9-4B28-B2EE-0F13D8D2FF95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CCF4BC2-18B9-4B28-B2EE-0F13D8D2FF95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CCF4BC2-18B9-4B28-B2EE-0F13D8D2FF95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A254AE8-1FE5-4B85-A78D-41C2F8963B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A254AE8-1FE5-4B85-A78D-41C2F8963B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A254AE8-1FE5-4B85-A78D-41C2F8963B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A254AE8-1FE5-4B85-A78D-41C2F8963B7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

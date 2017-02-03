@@ -1,0 +1,78 @@
+﻿<div class="modal fade" id="modalUserDetails" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 ng-if="!isNewUser()" class="modal-title">Edit User details</h4>
+                <h4 ng-if="isNewUser()" class="modal-title">Create new User</h4>
+            </div>
+            <form ng-submit="saveUserDetails()" autocomplete="off">
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <section id="userDetailsForm">
+                                <div ng-show="loadingDataFlag">Please wait...</div>
+                                <div ng-show="!userDetailsForm">
+                                    <strong class="text-danger">Form construction or data error!</strong>
+                                </div>
+                                <div ng-show="!!userDetailsForm" class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <input type="hidden" ng-model="userDetailsForm.id"/>
+                                        <label class="col-md-3 control-label" for="userName">User Name:</label>
+                                        <input class="form-control" type="text" pattern="[a-zA-Z0-9]{3,200}" title="Alphanumeric only, at least 3 characters long" ng-model="userDetailsForm.userName" id="userName" required/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">User Role:</label>
+                                        <select ng-disabled="!canEditRole()" ng-model="userDetailsForm.role">
+                                            <option value="">- none -</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Manager">Manager</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="emailAddress">Email Address:</label>
+                                        <input class="form-control" type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" placeholder="user@email.dom" ng-model="userDetailsForm.email" id="emailAddress" required/>
+                                    </div>
+
+                                    <div class="form-group" ng-if="!isNewUser()">
+                                        <div class="col-md-offset-2">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" ng-model="userDetailsForm.setPassword"/> Set new User Password</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="!!userDetailsForm.setPassword || isNewUser()" class="form-group">
+                                        <label class="col-md-3 control-label" for="newPassword"><span ng-if="!isNewUser()">New </span>Password:</label>
+                                        <input ng-disabled="!userDetailsForm.setPassword && !isNewUser()" ng-required="!!userDetailsForm.setPassword" type="password" pattern=".{6,200}" title="at least 6 characters long" id="newPassword" ng-model="userDetailsForm.newPassword" class="form-control"/>
+                                    </div>
+
+                                    <div ng-show="!!userDetailsForm.setPassword || isNewUser()" class="form-group">
+                                        <label class="col-md-3 control-label" for="confirmNewPassword">Confirm Password:</label>
+                                        <input ng-disabled="!userDetailsForm.setPassword && !isNewUser()" ng-required="!!userDetailsForm.setPassword" class="form-control" type="password" id="confirmNewPassword" ng-model="userDetailsForm.confirmNewPassword"/>
+                                        <span ng-show="(!!userDetailsForm.setPassword || isNewUser()) && userDetailsForm.newPassword !== userDetailsForm.confirmNewPassword" class="text-danger col-md-offset-3 col-md-10"> Password Confirmation does not match. </span>
+                                    </div>
+
+                                    <div class="form-group" ng-show="userDetailsForm.failed">
+                                        <div class="col-md-offset-1 col-md-10">
+                                            <span class="text-danger">{{isNewUser() ? 'Create' : 'Update'}} failed! {{userDetailsForm.errorMessage}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button ng-disabled="submittingDataFlag" type="submit" class="btn btn-primary">OK</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
