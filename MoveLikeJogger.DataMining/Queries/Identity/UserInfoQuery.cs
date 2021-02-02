@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MoveLikeJogger.DataContracts.Identity;
 using MoveLikeJogger.DataMining.Common;
+using MoveLikeJogger.DataMining.DB;
 
 namespace MoveLikeJogger.DataMining.Queries.Identity
 {
@@ -17,6 +18,10 @@ namespace MoveLikeJogger.DataMining.Queries.Identity
                          Email = x.Email,
                          Role = Db.Roles.Where(r => x.Roles.Any(ur => ur.RoleId == r.Id)).Select(r => r.Name).FirstOrDefault()
                      });
+        }
+
+        public UserInfoQuery(IApplicationDbContext context) : base(context)
+        {
         }
     }
 }

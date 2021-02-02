@@ -1,10 +1,22 @@
 ﻿using System;
 using MoveLikeJogger.DataMining.Common;
+using MoveLikeJogger.DataMining.DB;
 
 namespace MoveLikeJogger.DataMining.Commands.Identity
 {
-    public class DeleteUserCommand : CommandQueryBase, ICommand<bool, string>, ICommand<bool, string, bool>
+    public interface IDeleteUserCommand
     {
+        bool Execute(string id);
+        bool Execute(string id, bool isDeleted);
+    }
+
+    public class DeleteUserCommand : CommandQueryBase, ICommand<bool, string>, ICommand<bool, string, bool>, IDeleteUserCommand
+    {
+        public DeleteUserCommand(IApplicationDbContext context) : base(context)
+        {
+            
+        }
+
         public bool Execute(string id)
         {
             return Execute(id, true);

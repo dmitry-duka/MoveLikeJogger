@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -33,7 +36,7 @@ namespace MoveLikeJogger
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(UserStore<ApplicationUser> store)
+        public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
             // Configure validation logic for usernames
@@ -58,10 +61,12 @@ namespace MoveLikeJogger
             DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             MaxFailedAccessAttemptsBeforeLockout = 5;
         }
-
+        
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var dbContext = context.Get<IApplicationDbContext>();
+
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>((DbContext)dbContext));
             
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
@@ -82,6 +87,7 @@ namespace MoveLikeJogger
                 manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
+
             return manager;
         }
     }

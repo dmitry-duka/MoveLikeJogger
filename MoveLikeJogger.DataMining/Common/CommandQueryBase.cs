@@ -9,11 +9,11 @@ namespace MoveLikeJogger.DataMining.Common
 {
     public abstract class CommandQueryBase : IDisposable
     {
-        protected ApplicationDbContext Db;
+        protected IApplicationDbContext Db;
 
-        protected CommandQueryBase()
+        protected CommandQueryBase(IApplicationDbContext context)
         {
-            Db = new ApplicationDbContext();
+            Db = context;
         }
 
         public void Dispose()

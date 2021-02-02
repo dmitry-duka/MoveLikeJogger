@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Linq;
 using MoveLikeJogger.DataMining.Common;
+using MoveLikeJogger.DataMining.DB;
 using MoveLikeJogger.DataModels.Moves;
 
 namespace MoveLikeJogger.DataMining.Commands.Moves
@@ -47,6 +48,10 @@ namespace MoveLikeJogger.DataMining.Commands.Moves
             }
 
             return true;
+        }
+
+        public SaveMoveCommand(IApplicationDbContext context) : base(context)
+        {
         }
     }
 }

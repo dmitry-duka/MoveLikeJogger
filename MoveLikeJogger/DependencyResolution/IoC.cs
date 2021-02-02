@@ -2,7 +2,9 @@
 using MoveLikeJogger.DataContracts.Identity;
 using MoveLikeJogger.DataContracts.Moves;
 using MoveLikeJogger.DataMining.Commands;
+using MoveLikeJogger.DataMining.Commands.Identity;
 using MoveLikeJogger.DataMining.Commands.Moves;
+using MoveLikeJogger.DataMining.DB;
 using MoveLikeJogger.DataMining.Queries;
 using MoveLikeJogger.DataMining.Queries.Identity;
 using MoveLikeJogger.DataMining.Queries.Moves;
@@ -37,9 +39,14 @@ namespace MoveLikeJogger.DependencyResolution
         private static void RegisterAdditionaly(ConfigurationExpression cfg)
         {
             cfg.For<IQuery<IQueryable<ApplicationUserDTO>, bool>>().Use<UserInfoQuery>();
+            cfg.For<IDeleteUserCommand>().Use<DeleteUserCommand>();
 
             cfg.For<IQuery<IQueryable<MoveDTO>, bool>>().Use<MovesQuery>();
+
+            cfg.For<IDeleteMoveCommand>().Use<DeleteMoveCommand>();
             cfg.For<ICommand<bool, Move>>().Use<SaveMoveCommand>();
+
+            cfg.For<IApplicationDbContext>().Use<ApplicationDbContext>();
         }
     }
 }

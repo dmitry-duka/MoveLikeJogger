@@ -15,10 +15,12 @@ namespace MoveLikeJogger.Controllers
     public class UsersController : ODataControllerBase
     {
         private readonly IQuery<IQueryable<ApplicationUserDTO>, bool> _userQuery;
+        private readonly IDeleteUserCommand _deleteUserCommand;
 
-        public UsersController(IQuery<IQueryable<ApplicationUserDTO>, bool> userQuery)
+        public UsersController(IQuery<IQueryable<ApplicationUserDTO>, bool> userQuery, IDeleteUserCommand deleteUserCommand)
         {
             _userQuery = userQuery;
+            _deleteUserCommand = deleteUserCommand;
         }
 
         [EnableQuery]
@@ -104,7 +106,7 @@ namespace MoveLikeJogger.Controllers
                 return Conflict();
             }
 
-            var deleteResult = new DeleteUserCommand().Execute(key, !restore);
+            var deleteResult = _deleteUserCommand.Execute(key, !restore);
             
             return OkOrNotFound(deleteResult);
         }

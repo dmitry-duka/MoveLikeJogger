@@ -18,11 +18,13 @@ namespace MoveLikeJogger.Controllers
     {
         private readonly IQuery<IQueryable<MoveDTO>, bool> _movesQuery;
         private readonly ICommand<bool, Move> _saveMoveCommand;
+        private readonly IDeleteMoveCommand _deleteMoveCommand;
 
-        public MovesController(IQuery<IQueryable<MoveDTO>, bool> movesQuery, ICommand<bool, Move> saveMoveCommand)
+        public MovesController(IQuery<IQueryable<MoveDTO>, bool> movesQuery, ICommand<bool, Move> saveMoveCommand, IDeleteMoveCommand deleteMoveCommand)
         {
             _movesQuery = movesQuery;
             _saveMoveCommand = saveMoveCommand;
+            _deleteMoveCommand = deleteMoveCommand;
         }
 
         [EnableQuery]
@@ -103,7 +105,7 @@ namespace MoveLikeJogger.Controllers
                 return BadRequest("Not enough rights.");
             }
 
-            var deleteResult = new DeleteMoveCommand().Execute(key, !restore);
+            var deleteResult = _deleteMoveCommand.Execute(key, !restore);
             
             return OkOrNotFound(deleteResult);
         }

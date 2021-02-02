@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MoveLikeJogger.DataContracts.Moves;
 using MoveLikeJogger.DataMining.Common;
+using MoveLikeJogger.DataMining.DB;
 
 namespace MoveLikeJogger.DataMining.Queries.Moves
 {
@@ -18,6 +19,10 @@ namespace MoveLikeJogger.DataMining.Queries.Moves
                          Duration = x.Duration,
                          UserId = x.UserId
                      });
+        }
+
+        public MovesQuery(IApplicationDbContext context) : base(context)
+        {
         }
     }
 }
